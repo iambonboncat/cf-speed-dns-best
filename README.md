@@ -1,3 +1,20 @@
+## 不懂写代码，也就是用返回的ip，直接在Cloudflare的workers上部署了下面的转接代码，然后绑二级域名，实现自动更新最快IP
+
+addEventListener("fetch", event => {
+  // 获取请求的URL
+  let url = new URL(event.request.url);
+
+  // 设置新的目标域名
+  url.hostname = "curl 'https://ip.164746.xyz/ipTop.html'"; // 替换为你要转接的目标域名
+  url.protocol = 'https'; // 如果新域名使用HTTP协议，请改为'http'
+
+  // 构建301重定向响应
+  let response = Response.redirect(url.toString(), 301);
+
+  // 返回重定向响应
+  event.respondWith(response);
+});
+
 ## cf-speed-dns是什么?
 CloudflareSpeedTest 推送「每5分钟自选优选 IP」获取Cloudflare CDN 延迟和速度最快 IP ！
 
